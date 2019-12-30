@@ -1,3 +1,5 @@
+// this function crops quotes that are too long, but provides the full version on permalink pages
+
 function quotConcat(quot,sourc,link) {
             {block:HomePage}
             if (quot.length >= 100) {
