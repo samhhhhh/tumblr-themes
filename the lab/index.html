@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<head>
+<title>{Title}</title>
+<link href="https://fonts.googleapis.com/css?family=Fira+Mono|Major+Mono+Display&display=swap" rel="stylesheet">
+<link rel="shortcut icon" href="{Favicon}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@hello___fuckers">
+    <style>
+        
+        body {
+            display:grid;
+            grid-template-columns:350px 350px 350px;
+            justify-content:center;
+            background-color:white;
+            animation-name:bgc;
+            animation-duration:20s;
+            animation-iteration-count:infinite;
+        }
+        
+        @keyframes bgc {
+            0% {background-color:white;}
+            33% {background-color:{AccentColor}10;}
+            67% {background-color:{TitleColor}10;}
+            100% {background-color:white;}
+        }
+        
+        ::selection {
+            color:white;
+            background-color:{TitleColor};
+        }
+        
+        header {
+            grid-column:1 / span 3;
+            font-family: 'Major Mono Display', monospace;
+            font-size:50px;
+            text-align:center;
+            text-shadow:1px 1px, 2px 2px 2px {TitleColor}, -1px -1px {AccentColor}, -2px -2px 2px {AccentColor};
+        }
+        
+        article {
+            display:none;
+            {block:PermalinkPage}
+            grid-column:1 / span 2;
+            {/block:PermalinkPage}
+        }
+        
+        article.phot {
+            display:block;
+        }
+        
+        .quot {
+            display:block;
+            font-family: 'Fira Mono', monospace;
+            font-size:15px;
+            font-weight:bold;
+        }
+        
+        aside {
+            text-align:center;
+            margin-top:75px;
+            grid-column:3 / span 1;
+            grid-row:2 / span 1;
+            font-family: 'Major Mono Display', monospace;
+            font-weight:bold;
+        }
+        
+        img {
+            {block:HomePage}
+            width:340px;
+            height:340px;
+            object-fit:cover;
+            border-radius:20px;
+            {/block:HomePage}
+            {block:PermalinkPage}
+            width:690px;
+            height:auto;
+            object-fit:contain;
+            {/block:PermalinkPage}
+            margin:5px;
+        }
+        
+        img::selection {
+            background-color:transparent;
+        }
+        
+        .quot p {
+            margin:0;
+            padding:75px 50px 0 50px;
+        }
+        
+        a {
+            color:{AccentColor};
+            text-decoration:none;
+        }
+        
+    </style>
+    
+    <script>
+        function textpost(post,postid,perma) {
+            var myPost = JSON.parse(post);
+            if (myPost.trail.length && myPost.trail[0].content.length && myPost.trail[0].content[0].type == 'image') {
+                document.getElementById(postid).className = 'phot';
+                document.getElementById(postid).innerHTML = '{block:HomePage}<a href="' + perma + '">{/block:HomePage}<img src="' + myPost.trail[0].content[0].media[0].url + '">{block:HomePage}</a>{/block:HomePage}';
+            } else if (myPost.content[0].type == 'image') {
+                document.getElementById(postid).className = 'phot';
+                document.getElementById(postid).innerHTML = '{block:HomePage}<a href="' + perma + '">{/block:HomePage}<img src="' + myPost.content[0].media[0].url + '">{block:HomePage}</a>{/block:HomePage}';
+            } else if (myPost.content[0].type == 'text' && myPost.content[0].subtype && myPost.content[0].subtype == 'quote') {
+                document.getElementById(postid).className = 'quot';
+                var res = myPost.content[0].text.replace(/“/g, '');
+                var res = res.replace(/”/g, '');
+                var res = quotConcat(res,myPost.content[1].text,perma);
+                document.getElementById(postid).innerHTML = res;
+            }
+            document.getElementById(postid).innerhtml = post;
+        }
+        
+        function quotConcat(quot,sourc,link) {
+            {block:HomePage}
+            if (quot.length >= 100) {
+                var x = quot.indexOf('.');
+                return '<p>' + quot.substr(0,x + 1) + '</p><p style="float:right;">&mdash;<a href="' + link + '">' + sourc + '</a></p>';
+            } else {
+                return '<p>' + quot + '</p><p style ="float:right;">&mdash;<a href="' + link + '">' + sourc + '</a></p>';
+            }
+            {/block:HomePage}
+            {block:PermalinkPage}
+            return '<p>' + quot + '</p><p style="float:right;">&mdash;' + sourc + '</p>';
+            {/block:PermalinkPage}
+        }
+    </script>
+    
+</head>
+
+<body>
+    <header>{Title}</header>
+    {block:Posts}
+    
+    {block:Text}<article id="{PostID}"></article>
+    <script>
+        textpost('{NPF}','{PostID}','{Permalink}');
+    </script>
+    {/block:Text}
+    
+    {block:Photo}<article class="phot">
+        {block:HomePage}<a href="{Permalink}">{/block:HomePage}<img src="{PhotoURL-HighRes}">{block:HomePage}</a>{/block:HomePage}
+    </article>{/block:Photo}
+    
+    {block:Photoset}{block:Photos}<article class="phot">
+        {block:HomePage}<a href="{Permalink}">{/block:HomePage}<img src="{PhotoURL-HighRes}">{block:HomePage}</a>{/block:HomePage}
+    </article>{/block:Photos}{/block:Photoset}
+    
+    {block:Quote}<article id ="{PostID}" class="quot"></article>
+        <script>
+            var retQuote = quotConcat('{Quote}','{Source}','{Permalink}');
+            document.getElementById('{PostID}').innerHTML += retQuote;
+        </script>
+    </article>{/block:Quote}
+    
+    {block:PermalinkPage}<aside><a href="/">home</a><p>{Description}</p></aside>{/block:PermalinkPage}
+    
+    {block:RebloggedFrom}<a href="{ReblogParentURL}" style="display:none;"></a>{/block:RebloggedFrom}
+    
+    {/block:Posts}
+    
+</body>
+
+</html>
