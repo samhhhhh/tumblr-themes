@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+
+<!-- 
+
+Thanks so much, always, to w3schools and css-tricks for all their wonderful info, tips, and tricks, which make my shitty diy themes look great. Love you!
+
+-->
+
+
+<head>
+    
+    <title>{Title}</title>
+    
+    <link rel="shortcut icon" href="https://static.tumblr.com/s7kjkzu/Ajuq1jl4x/favicon.png">
+    
+    <link href="https://fonts.googleapis.com/css?family=Anonymous+Pro|Ubuntu+Mono:700&display=swap" rel="stylesheet">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@j55070579">
+    <meta name="twitter:creator" content="@j55070579">
+    <meta name="twitter:description" content="{Title}">
+    {block:Posts}{block:PermalinkPage}
+    {block:Text}
+    <meta name="twitter:image" content="https://static.tumblr.com/s7kjkzu/8c2q1pdx0/ultra.png">{block:Title} 
+    <meta name="twitter:title" content="{Title}">{/block:Title}
+    {/block:Text}
+    {block:Photo}
+    <meta name="twitter:image" content="{PhotoURL-500}">{block:Caption} 
+    <meta name="twitter:title" content="{Caption}">{/block:Caption}
+    {/block:Photo}
+    {block:Quote}
+    <meta name="twitter:image" content="https://static.tumblr.com/s7kjkzu/8c2q1pdx0/ultra.png">
+    <meta name="twitter:title" content="A quote for you by {Source}">
+    {/block:Quote}
+    {/block:PermalinkPage}{/block:Posts}
+    <meta name="twitter:title" content="{Title}">
+    <script>
+        var today = new Date();
+        var year = today.
+    </script>
+    
+    <style type="text/css">
+        
+        title {
+            text-transform:uppercase;
+        }
+        
+        #posts {
+            display:grid;
+            grid-template-columns:300px 300px 300px;
+            justify-content:center;
+        }
+        
+        header {
+            grid-column:1 / span 3;
+            margin:0;
+            padding:0;
+            color:{TitleColor};
+            font-variant:small-caps;
+            font-family: 'Anonymous Pro', monospace;
+            font-size:60px;
+            text-align:center;
+            border:5px solid {TitleColor};
+            background-color:{BackgroundColor};
+            text-shadow:2.5px 2.5px 5px;
+        }
+        
+        header a {
+            text-decoration:none;
+        }
+        
+        header a:hover {
+            color:{TitleColor};
+        }
+        
+        article {
+            padding:8px;
+            font-family: 'Anonymous Pro', monospace;
+            border:2px solid {TitleColor};
+            {block:PermalinkPage}
+            grid-column:1 / span 2;
+            {/block:PermalinkPage}
+        }
+        
+        img {
+            {block:HomePage}
+            width:280px!important;
+            height:280px!important;
+            filter: grayscale(100%);
+            object-fit:cover;
+            border-radius:8px;
+            {/block:HomePage}
+            {block:PermalinkPage}
+            width:580px!important;
+            height:auto;
+            {/block:PermalinkPage}
+        }
+        
+        img:hover {
+            object-fit:contain;
+            filter: grayscale(0%);
+            border-radius:0;
+        }
+        
+        .link img {
+            border:2px solid {TitleColor};
+            width:270px!important;
+            height:270px!important;
+            padding:5px;
+            object-fit:fill;
+        }
+        
+        .text img {
+            width:300px!important;
+            height:auto;
+            float:right;
+            margin-left:20px;
+        }
+        
+        .photo p {
+            margin:0;
+            font-family:'Ubuntu Mono', monospace;
+            text-transform:uppercase;
+            text-align:justify;
+            font-size:25px;
+        }
+        
+        {block:HomePage}
+        .photo blockquote {
+            display:none;
+        }
+        {/block:HomePage}
+        
+        a {
+            color:{TitleColor};
+        }
+        
+        a:hover {
+            color:{AccentColor};
+        }
+        
+        .text p {
+            text-indent:20px;
+        }
+        
+        aside {
+            grid-column:3 / span 1;
+            grid-row:2 / span 1;
+            font-family:'Ubuntu Mono', monospace;
+            text-transform:lowercase;
+            text-align:center;
+            padding:8px;
+        }
+        
+        aside p {
+            display:inline;
+        }
+        
+        .quote p {
+            display:inline;
+            font-family: 'Anonymous Pro', monospace;
+            {block:HomePage}
+            font-size:25px;
+            text-transform:uppercase;
+            {/block:HomePage}
+            {block:PermalinkPage}
+            font-size:20px;
+            {/block:PermalinkPage}
+            letter-spacing:1px;
+        }
+        
+        p.source {
+            display:block;
+            margin:0;
+            float:right;
+        }
+        
+        .source a {
+            text-decoration:none;
+        }
+        
+        figure {
+            margin:0;
+            display:inline;
+            
+        }
+        
+        .pages {
+            display:inline-block;
+            margin:0px 10px 0px 10px;
+            font-size:18px;
+        }
+        
+        footer {
+            grid-column:1 / span 3;
+            text-align:center;
+        }
+        
+    </style>
+    
+</head>
+
+<body>
+    
+    <div id="posts"><header><a href="/">{Title}</a></header>
+    
+    {block:Posts}
+    
+    {block:Text}<article class="text">
+        
+        {block:HomePage}<a href="{Permalink}" style="font-size:20px;">Read{/block:HomePage}{block:Title}: {Title}{/block:Title}
+        </a>
+        
+        {block:PermalinkPage}{Body}{/block:PermalinkPage}
+        
+    </article>{/block:Text}
+    
+    {block:Photo}<article class="photo">
+        
+        {block:HomePage}<a href="{Permalink}"><img src="{PhotoURL-500}"></a>{/block:HomePage}
+        {block:PermalinkPage}<img src="{PhotoURL-HighRes}">{/block:PermalinkPage}
+        {Caption}
+        
+        {block:RebloggedFrom}
+        <p><a href="{ReblogParentURL}"></a></p>
+        {/block:RebloggedFrom}
+        
+        
+    </article>{/block:Photo}
+    
+    {block:Quote}<article class="quote">
+        <p id="{PostID}"></p>
+        <p class="source">{block:HomePage}<a href="{Permalink}">{/block:HomePage}&mdash;{Source}{block:HomePage}</a>{/block:HomePage}</p>
+        <script>
+            {block:HomePage}
+            var quot = "{Quote}";
+            var period = quot.indexOf(".");
+            var short;
+            if (period == -1) {
+                short = quot;
+            } else {
+                short = quot.substr(0, period);
+            }
+            document.getElementById("{PostID}").innerHTML = "&quot;" + short + "&hellip;&quot;";
+            {/block:HomePage}
+            {block:PermalinkPage}
+            document.getElementById("{PostID}").innerHTML = "&quot;{Quote}&quot;";
+            {/block:PermalinkPage}
+        </script>
+        
+    </article>{/block:Quote}
+    
+    {block:Photoset}
+    
+    {block:Photos}<article class="photo">
+        
+        {block:HomePage}<a href="{Permalink}"><img src="{PhotoURL-500}"></a>{/block:HomePage}
+        {block:PermalinkPage}<img src="{PhotoURL-HighRes}">{/block:PermalinkPage}
+        
+        {block:RebloggedFrom}
+        <p><a href="{ReblogParentURL}"></a>
+        {/block:RebloggedFrom}
+        
+    </article>{/block:Photos}
+    
+    {/block:Photoset}
+    
+        {block:PermalinkPage}<aside>
+        
+        <a href="/">Home</a>
+        {block:Photoset}{block:Caption}<br><br>{Caption}{/block:Caption}{/block:Photoset}{block:RebloggedFrom}<br><br>This post is from: <a href="{ReblogParentURL}">{ReblogParentTitle}</a>
+        {/block:RebloggedFrom}
+        {block:Date}<br><br>I posted this on {DayOfWeek},<br>{Month} {DayOfMonth}, {Year}{/block:Date}
+        
+        {block:ContentSource}<a href="{SourceURL}"></a>{/block:ContentSource}
+        
+    </aside>{/block:PermalinkPage}
+    
+    {/block:Posts}
+        
+    {block:ShowDescription}{block:HomePage}<footer>{Description}</footer>{/block:HomePage}{/block:ShowDescription}
+        
+    </div>
+    
+</body>
+
+</html>
