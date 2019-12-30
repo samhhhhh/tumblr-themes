@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html>
+    
+    <head>
+    
+    <title>{Title}</title>
+    <link rel="shortcut icon" href="{Favicon}">
+    
+    <style>
+        
+        .tmblr-iframe {
+            display:none;
+        }
+        
+        section {
+            display:grid;
+            grid-template-columns:400px 400px;
+            grid-gap:10px;
+            position:absolute;
+            top:10px;
+            left:10px;
+        }
+        
+        article {
+            padding:25px;
+            border:1px solid;
+        }
+        
+        audio {
+            width:350px;
+        }
+        
+        article img {
+            width:350px;
+            height:350px;
+            object-fit:cover;
+        }
+        
+        aside {
+            position:absolute;
+            left:830px;
+            top:10px;
+            display:grid;
+            grid-template-columns:300px;
+        }
+        
+        aside img {
+            width:250px;
+            border:1px solid;
+            padding:25px;
+            margin-bottom:10px;
+        }
+        
+    </style>
+    
+    <script>
+        
+        function myAudio(npf,cover) {
+            var audio = npf.content[0].media.url;
+            var where = audio.search(/\?/);
+            audio = audio.slice(0,where);
+            document.getElementById('audio').innerHTML += '<article><img src="' + cover + '"><audio controls><source src="' + audio + '" type ="audio/mpeg"></audio></article>';
+        }
+        
+    </script>
+        
+    </head>
+    <body>
+        
+        <section id="audio"></section>
+        <aside id="images"></aside>
+        {block:Posts}
+        
+        {block:Photo}
+        <script>
+            document.getElementById('images').innerHTML += '<img src="{PhotoURL-HighRes}">';
+        </script>
+        {/block:Photo}
+        
+        {block:Audio}{block:AlbumArt}
+        <script>myAudio({NPF},'{AlbumArtURL}');</script>
+        {/block:AlbumArt}{/block:Audio}
+        
+        {/block:Posts}
+        
+    </body>
+</html>
