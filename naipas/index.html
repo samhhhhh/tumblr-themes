@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<head>
+    
+    <title>{Title}</title>
+    <link rel="shortcut icon" href="{Favicon}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@hello___fuckers">
+    <meta name="twitter:creator" content="@hello___fuckers">
+    <meta name="twitter:title" content="SAM'S BICYCLEBLR">
+    <meta name="twitter:description" content="my cycling tumblr">
+    <meta name="twitter:image" content="https://static.tumblr.com/s7kjkzu/ua2q29usa/8-88034_related-to-contemporary-bike-clipart-elegant-luxury-bicycle.jpg">
+    
+    <style>
+        
+        .tmblr-iframe {
+            display:none;
+        }
+        
+        ::selection {
+            color:white;
+            background-color:{TitleColor};
+        }
+        
+        img {
+            width:95vw;
+        }
+        
+        p {
+            margin:0;
+            display:none;
+            padding-left:5vw;
+            text-indent:-5vw;
+        }
+        
+        iframe {
+            display:none;
+        }
+        
+        a {
+            color:{TitleColor};
+        }
+        
+        @keyframes quirko {
+            0% {color:black;}
+            50% {color:{AccentColor}};
+            100% {color:black;}
+        }
+        
+        @media only screen and (min-width: 800px) {
+            .npf_quirky {
+                animation-name:quirko;
+                animation-duration:3s;
+                animation-iteration-count:infinite;
+                font-size:3vh!important;
+            }
+            
+            p {
+                display:block;
+            }
+            
+            img {
+                width:28vh;
+                height:28vh;
+                padding:2vh;
+                border-bottom:1px solid;
+                border-right:1px solid;
+                object-fit:cover;
+            }
+            
+            #photos {
+                display:flex;
+                flex-flow:column wrap;
+                position:absolute;
+                left:0;
+                max-height:98vh;
+            }
+            
+            #quotes {
+                font-family:monospace;
+                font-size:2vh;
+                max-height:30vh;
+                max-width:40vw;
+                padding:2vh;
+                border-top:1px solid;
+                position:fixed;
+                bottom:0;
+                right:0;
+            }
+            
+            #text {
+                position:fixed;
+                padding:2vw;
+                top:0;
+                right:0;
+                max-width:40vw;
+                max-height:20vh;
+                font-family:sans-serif;
+                font-size:2vh;
+                border-bottom:1px solid;
+                overflow:hidden;
+            }
+            
+            #videos {
+                position:absolute;
+                left:50vw;
+                top:25vh;
+            }
+            
+            iframe {
+                display:block;
+                width:40vw;
+                height:40vh;
+            }
+        }
+        
+    </style>
+    
+    <script>
+        var imgtotal = 0;
+        var quottotal = 0;
+        var vidtotal = 0;
+        
+        function myTxt(npf,perma) {
+            if (npf.content[0] && npf.content[0].type == 'image') {
+                myImg(npf.content[0].media[0].url);
+            } else if (npf.content[0] && npf.content[0].subtype && npf.content[0].subtype == 'quote') {
+                myQuot(npf);
+            } else if (npf.content[0] && npf.content[0].type == 'text' && npf.content[0].subtype) {
+                if (npf.content[0].subtype == 'quirky') {
+                    document.getElementById('text').innerHTML += '<p class="npf_quirky">' + npf.content[0].text + '</p>';
+                }
+            } else if (npf.content[0] && npf.content[0].type =='video') {
+                myVid(npf);
+            } else if (npf.content[0] == undefined) {
+                myReblog(npf);
+            }
+        }
+        
+        function myImg(url) {
+            if (imgtotal < 6) {
+                imgtotal++;
+                document.getElementById('photos').innerHTML += '<img src="' + url + '">';
+            }
+        }
+        
+        function myQuot(npf) {
+            if (quottotal < 1 ) {
+                quottotal++;
+                document.getElementById('quotes').innerHTML = '<p>&ldquo;' + npf.content[0].text + '&rdquo;</p><p>&mdash;' + npf.content[1].text + '</p>';
+            }
+        }
+        
+        function myVid(npf) {
+            if (vidtotal < 1 && npf.content[0].provider == 'tumblr') {
+                vidtotal++;
+                document.getElementById('videos').innerHTML += '<iframe src="' + npf.content[0].media.url + '"></iframe>';
+            } else if (vidtotal < 1 && npf.content[0].provider == 'youtube' || npf.content[0].provider == 'vimeo') {
+                vidtotal++;
+                document.getElementById('videos').innerHTML += '<iframe src="' + npf.content[0].embed_iframe.url + '"></iframe>';
+            }
+        }
+        
+        function myReblog(npf) {
+            myTxt(npf.trail[0],0);
+        }
+        
+    </script>
+    
+</head>
+<body>
+    
+    <section id="text"><p class="npf_quirky">{Description}</p></section>
+    <section id="photos"></section>
+    <section id="quotes"></section>
+    <section id="videos"></section>
+    
+    {block:Posts}
+    {block:Text}<script>myTxt({NPF},'{Permalink}');</script>{/block:Text}
+    {block:Quote}<script>myQuot({NPF});</script>{/block:Quote}
+    {block:Photo}<script>myImg('{PhotoURL-HighRes}');</script>{/block:Photo}
+    {block:Photoset}{block:Photos}<script>myImg('{PhotoURL-HighRes}');</script>{/block:Photos}{/block:Photoset}
+    {block:Video}<script>myVid({NPF});</script>{/block:Video}
+    {/block:Posts}
+    
+</body>
+</html>
