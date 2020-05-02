@@ -1,5 +1,16 @@
 function myPost(npf) {
+    if (npf.trail.length > 0) {
+        for (i in npf.trail[0].content) {
+            if (npf.trail[0].content[i].type == "image") {
+                myImg(npf.trail[0].content[i]);
+            }
+        }
+    }
     npf.content.forEach(myParse);
+}
+
+function myStrip(x) {
+    return x.type == "image";
 }
 
 function myParse(x) {
@@ -13,7 +24,7 @@ function myParse(x) {
 }
 
 function myImg(x) {
-    document.getElementById("posts").innerHTML += '<img src="' + x.media[0].url + '">';
+    document.getElementById("images").innerHTML += '<img src="' + x.media[0].url + '">';
 }
 
 function myTxt(x) {
