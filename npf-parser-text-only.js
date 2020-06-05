@@ -11,7 +11,6 @@ function myNPF(npf,postid) {
 }
 
 function myTxt(npf,postid) {
-    document.getElementById(postid).innerHTML += JSON.stringify(npf) + '<br><br>';
 
     if (npf.subtype !== undefined) {
         subType = npf.subtype;
